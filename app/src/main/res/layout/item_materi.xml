@@ -48,8 +48,8 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="start"
-                    android:src="@drawable/ic_bookmark"
-                    android:contentDescription="Bookmark Icon" />
+                    android:contentDescription="Bookmark Icon"
+                    android:src="@drawable/ic_bookmark" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
