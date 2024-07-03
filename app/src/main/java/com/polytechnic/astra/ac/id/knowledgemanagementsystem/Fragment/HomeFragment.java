@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,6 +37,9 @@ public class HomeFragment extends Fragment {
     private MateriAdapter riwayatMateriAdapter;
     private ProdiAdapter prodiAdapter;
     private MateriAdapter materiTersimpanAdapter;
+    private TextView mTxvRiwayat;
+    private TextView mTxvTersimpan;
+    private ImageButton mBtnLogout;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -100,8 +104,8 @@ public class HomeFragment extends Fragment {
         });
 
         // Tambahkan onClickListener untuk tombol logout
-        ImageView logoutIcon = view.findViewById(R.id.refresh_icon);
-        logoutIcon.setOnClickListener(new View.OnClickListener() {
+        mBtnLogout = view.findViewById(R.id.btn_logout);
+        mBtnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Ganti fragment saat ini dengan LoginFragment
@@ -113,8 +117,8 @@ public class HomeFragment extends Fragment {
         });
 
         // Tambahkan onClickListener untuk "Tampilkan Semua" TextView
-        TextView tampilkanRiwayat = view.findViewById(R.id.tampilkan_riwayat);
-        tampilkanRiwayat.setOnClickListener(new View.OnClickListener() {
+        mTxvRiwayat = view.findViewById(R.id.txv_riwayat);
+        mTxvRiwayat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Ganti fragment saat ini dengan RiwayatMateriFragment
@@ -125,8 +129,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        TextView tampilkanTersimpan = view.findViewById(R.id.tampilkan_simpan);
-        tampilkanTersimpan.setOnClickListener(new View.OnClickListener() {
+        mTxvTersimpan = view.findViewById(R.id.txv_tersimpan);
+        mTxvTersimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Ganti fragment saat ini dengan MateriTersimpanFragment
@@ -151,7 +155,7 @@ public class HomeFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ProdiViewHolder holder, int position) {
             ProdiModel prodi = prodiList.get(position);
-            holder.namaProdi.setText(prodi.getText());
+            holder.mTxvNamaProdi.setText(prodi.getText());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -184,11 +188,11 @@ public class HomeFragment extends Fragment {
         }
 
         static class ProdiViewHolder extends RecyclerView.ViewHolder {
-            TextView namaProdi;
+            TextView mTxvNamaProdi;
 
             public ProdiViewHolder(@NonNull View itemView) {
                 super(itemView);
-                namaProdi = itemView.findViewById(R.id.txv_namaProdi);
+                mTxvNamaProdi = itemView.findViewById(R.id.txv_namaProdi);
             }
         }
     }
@@ -208,8 +212,8 @@ public class HomeFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MateriViewHolder holder, int position) {
             if (singleMateri != null) {
-                holder.judul.setText(singleMateri.getMatJudul());
-                holder.keterangan.setText(singleMateri.getMatKeterangan());
+                holder.mTxvJudulMateri.setText(singleMateri.getMatJudul());
+                holder.mTxvDeskMateri.setText(singleMateri.getMatKeterangan());
             }
         }
 
@@ -224,12 +228,12 @@ public class HomeFragment extends Fragment {
         }
 
         static class MateriViewHolder extends RecyclerView.ViewHolder {
-            TextView judul, keterangan;
+            TextView mTxvJudulMateri, mTxvDeskMateri;
 
             public MateriViewHolder(@NonNull View itemView) {
                 super(itemView);
-                judul = itemView.findViewById(R.id.txv_judulMateri);
-                keterangan = itemView.findViewById(R.id.txv_deskMateri);
+                mTxvJudulMateri = itemView.findViewById(R.id.txv_judulMateri);
+                mTxvDeskMateri = itemView.findViewById(R.id.txv_deskMateri);
             }
         }
     }

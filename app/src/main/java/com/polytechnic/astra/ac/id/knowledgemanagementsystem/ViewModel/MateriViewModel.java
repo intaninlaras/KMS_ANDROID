@@ -16,9 +16,13 @@ public class MateriViewModel extends ViewModel {
 
     public MateriViewModel() {
         prodiRepository = MyRepository.get();
-        getListMateri = prodiRepository.getListDataMateriByKategori("1");
+        getListMateri = new MutableLiveData<>();
+//        getListMateri = prodiRepository.getListDataMateriByKategori("1");
     }
 
+    public void loadListMateriByKategori(String kategoriId) {
+        getListMateri = prodiRepository.getListDataMateriByKategori(kategoriId);
+    }
     public LiveData<List<MateriModel>> getListMateri() {
         return getListMateri;
     }

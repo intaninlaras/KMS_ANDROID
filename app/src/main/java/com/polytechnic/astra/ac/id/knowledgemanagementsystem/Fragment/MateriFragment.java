@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model.MateriModel;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.R;
+import com.polytechnic.astra.ac.id.knowledgemanagementsystem.ViewModel.KategoriViewModel;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.ViewModel.MateriViewModel;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.ViewModel.RiwayatMateriViewModel;
 
@@ -29,6 +30,15 @@ public class MateriFragment extends Fragment {
     private RecyclerView recyclerView;
     private MateriAdapter materiAdapter;
     private String katId;
+    private String katNama;
+    private String katDesk;
+    private String programId;
+    private String namaProgram;
+    private static String KKId;
+    private static String namaKK;
+    private static String deskKK;
+    private String prodiId;
+    private String prodiNama;
 
     public static MateriFragment newInstance() {
         return new MateriFragment();
@@ -44,11 +54,30 @@ public class MateriFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (getArguments() != null) {
+            katId = getArguments().getString("kategori_id");
+            katNama = getArguments().getString("nama_kategori");
+            katDesk = getArguments().getString("desk_kategori");
+            programId = getArguments().getString("program_id");
+            namaProgram = getArguments().getString("nama_program");
+            KKId = getArguments().getString("kk_id");
+            namaKK = getArguments().getString("nama_kk");
+            deskKK = getArguments().getString("desk_kk");
+            prodiId = getArguments().getString("prodi_id");
+            prodiNama = getArguments().getString("nama_prodi");
+            TextView txvProdi = view.findViewById(R.id.header_title);
+            txvProdi.setText(katNama);
+        }
+
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         materiAdapter = new MateriAdapter();
         recyclerView.setAdapter(materiAdapter);
 
+        materiViewModel = new ViewModelProvider(this).get(MateriViewModel.class);
+
+        // Panggil metode ViewModel dengan prodiId
+        materiViewModel.loadListMateriByKategori(katId);
         materiViewModel = new ViewModelProvider(this).get(MateriViewModel.class);
         materiViewModel.getListMateri().observe(getViewLifecycleOwner(), new Observer<List<MateriModel>>() {
             @Override
@@ -61,8 +90,19 @@ public class MateriFragment extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                KategoriFragment kategoriFragment = KategoriFragment.newInstance();
+                Bundle args = new Bundle();
+                args.putString("program_id", programId);
+                args.putString("nama_program", namaProgram);
+                args.putString("kk_id", KKId);
+                args.putString("nama_kk", namaKK);
+                args.putString("desk_kk", deskKK);
+                args.putString("prodi_id", prodiId);
+                args.putString("nama_prodi", prodiNama);
+                kategoriFragment.setArguments(args);
+
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, new KategoriFragment());
+                transaction.replace(R.id.fragment_container, kategoriFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }

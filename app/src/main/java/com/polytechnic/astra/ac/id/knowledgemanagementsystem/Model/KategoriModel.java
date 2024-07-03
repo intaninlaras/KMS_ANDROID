@@ -7,18 +7,20 @@ public class KategoriModel {
     private String katStatus;
     private String proId;
     private String proNama;
+    private String jumlahMateri;
 
     // Constructors
     public KategoriModel() {
     }
 
-    public KategoriModel(String katId, String katNama, String katDeskripsi, String katStatus, String proId, String proNama) {
+    public KategoriModel(String katId, String katNama, String katDeskripsi, String katStatus, String proId, String proNama,String jumlahMateri) {
         this.katId = katId;
         this.katNama = katNama;
         this.katDeskripsi = katDeskripsi;
         this.katStatus = katStatus;
         this.proId = proId;
         this.proNama = proNama;
+        this.jumlahMateri = jumlahMateri;
     }
 
     // Getters and Setters
@@ -68,5 +70,13 @@ public class KategoriModel {
 
     public void setProNama(String proNama) {
         this.proNama = proNama;
+    }
+
+    public String getJumlahMateri() {
+        return jumlahMateri;
+    }
+
+    public void setJumlahMateri(String jumlahMateri) {
+        this.jumlahMateri = jumlahMateri;
     }
 }

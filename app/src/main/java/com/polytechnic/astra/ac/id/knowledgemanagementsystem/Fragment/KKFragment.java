@@ -31,6 +31,7 @@ public class KKFragment extends Fragment {
     private KKViewModel kkViewModel;
     private RecyclerView recyclerView;
     private KKAdapter kkAdapter;
+    private ImageButton mBtnBack;
     private String prodiId;
     private String prodiNama;
     private String kkId;
@@ -79,8 +80,8 @@ public class KKFragment extends Fragment {
             }
         });
 
-        ImageButton back = view.findViewById(R.id.back_button);
-        back.setOnClickListener(new View.OnClickListener() {
+        mBtnBack = view.findViewById(R.id.btn_back);
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
@@ -102,16 +103,16 @@ public class KKFragment extends Fragment {
         @NonNull
         @Override
         public KKViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_program, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_kk, parent, false);
             return new KKViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull KKViewHolder holder, int position) {
             KKModel kk = kkList.get(position);
-            holder.judul.setText(kk.getKkeNama());
-            holder.keterangan.setText(kk.getKkeDeskripsi());
-            holder.arrowButton.setOnClickListener(new View.OnClickListener() {
+            holder.mTxvNamaKK.setText(kk.getKkeNama());
+            holder.mTxvDeskKK.setText(kk.getKkeDeskripsi());
+            holder.mBtnNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ProgramFragment programFragment = ProgramFragment.newInstance();
@@ -119,6 +120,8 @@ public class KKFragment extends Fragment {
                     args.putString("kk_id", kk.getKkeId());
                     args.putString("nama_kk", kk.getKkeNama());
                     args.putString("desk_kk", kk.getKkeDeskripsi());
+                    args.putString("prodi_id", prodiId);
+                    args.putString("nama_prodi", prodiNama);
                     programFragment.setArguments(args);
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment_container, programFragment);
@@ -139,14 +142,14 @@ public class KKFragment extends Fragment {
         }
 
         public class KKViewHolder extends RecyclerView.ViewHolder {
-            TextView judul, keterangan;
-            Button arrowButton;
+            TextView mTxvNamaKK, mTxvDeskKK;
+            Button mBtnNext;
 
             public KKViewHolder(@NonNull View itemView) {
                 super(itemView);
-                judul = itemView.findViewById(R.id.judul);
-                keterangan = itemView.findViewById(R.id.deskripsi);
-                arrowButton = itemView.findViewById(R.id.matkulButton);
+                mTxvNamaKK = itemView.findViewById(R.id.txv_namaKK);
+                mTxvDeskKK = itemView.findViewById(R.id.txv_deskKK);
+                mBtnNext = itemView.findViewById(R.id.btn_nextKK);
             }
         }
     }

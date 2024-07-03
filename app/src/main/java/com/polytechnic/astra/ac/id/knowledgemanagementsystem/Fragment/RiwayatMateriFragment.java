@@ -29,6 +29,7 @@ public class RiwayatMateriFragment extends Fragment {
     private RiwayatMateriViewModel materiViewModel;
     private RecyclerView recyclerView;
     private MateriAdapter materiAdapter;
+    private ImageButton mBtnBack;
 
     public static RiwayatMateriFragment newInstance() {
         return new RiwayatMateriFragment();
@@ -57,8 +58,8 @@ public class RiwayatMateriFragment extends Fragment {
             }
         });
 
-        ImageButton back = view.findViewById(R.id.back_button);
-        back.setOnClickListener(new View.OnClickListener() {
+        mBtnBack = view.findViewById(R.id.btn_back);
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Ganti fragment saat ini dengan RiwayatMateriFragment
@@ -83,8 +84,8 @@ public class RiwayatMateriFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MateriViewHolder holder, int position) {
             MateriModel materi = materiList.get(position);
-            holder.judul.setText(materi.getMatJudul());
-            holder.keterangan.setText(materi.getMatKeterangan());
+            holder.mTxvJudulMateri.setText(materi.getMatJudul());
+            holder.mTxvDeskMateri.setText(materi.getMatKeterangan());
 
 //            String deskripsi = materi.getKeterangan();
 //            if (deskripsi.length() > 100) {
@@ -105,12 +106,12 @@ public class RiwayatMateriFragment extends Fragment {
         }
 
         static class MateriViewHolder extends RecyclerView.ViewHolder {
-            TextView judul, keterangan;
+            TextView mTxvJudulMateri, mTxvDeskMateri;
 
             public MateriViewHolder(@NonNull View itemView) {
                 super(itemView);
-                judul = itemView.findViewById(R.id.txv_judulMateri2);
-                keterangan = itemView.findViewById(R.id.txv_dskMateri2);
+                mTxvJudulMateri = itemView.findViewById(R.id.txv_judulMateri2);
+                mTxvDeskMateri = itemView.findViewById(R.id.txv_dskMateri2);
             }
         }
     }

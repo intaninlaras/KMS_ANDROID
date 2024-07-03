@@ -29,7 +29,7 @@
                 android:id="@+id/judul"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Title"
+                android:text="Pemrograman III"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -38,9 +38,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Description"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam efficitur, sem eget eleifend tempus, elit ligula dignissim justo, et euismod nisi leo et libero."
                 android:textColor="#777"
                 android:textSize="11sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_book"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jumlah Materi :"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/jumlah_materi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

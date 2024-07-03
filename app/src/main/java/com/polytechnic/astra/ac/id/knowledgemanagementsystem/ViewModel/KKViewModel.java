@@ -16,7 +16,6 @@ public class KKViewModel extends ViewModel {
     public KKViewModel() {
         prodiRepository = MyRepository.get();
         listKK = new MutableLiveData<>();
-//        loadListKKByProdi(prodiId);
     }
 
     public void loadListKKByProdi(String prodiId) {

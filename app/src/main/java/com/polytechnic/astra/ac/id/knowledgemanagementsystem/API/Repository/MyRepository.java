@@ -188,6 +188,7 @@ public class MyRepository {
                         KKView.setKatId(programModel.getKatId());
                         KKView.setKatNama(programModel.getKatNama());
                         KKView.setKatDeskripsi(programModel.getKatDeskripsi());
+                        KKView.setJumlahMateri(programModel.getJumlahMateri());
                         prodiViewList.add(KKView);
                     }
                     data.setValue(prodiViewList);

@@ -43,14 +43,15 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/refresh_icon"
+        <ImageButton
+            android:id="@+id/btn_logout"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/ic_logout"
-            android:contentDescription="Log Out" />
+            android:contentDescription="Log Out"
+            android:background="?attr/selectableItemBackgroundBorderless" />
     </RelativeLayout>
 
     <!-- ScrollView Content -->
@@ -74,7 +75,7 @@
                 android:layout_marginTop="16dp">
 
                 <TextView
-                    android:id="@+id/text_riwayat_materi"
+                    android:id="@+id/txv_tersimpan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Riwayat Materi"
@@ -84,7 +85,7 @@
                     android:layout_centerVertical="true" />
 
                 <TextView
-                    android:id="@+id/tampilkan_riwayat"
+                    android:id="@+id/txv_riwayat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tampilkan Semua"

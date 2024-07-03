@@ -16,8 +16,12 @@ public class KategoriViewModel extends ViewModel {
     private MyRepository prodiRepository;
     public KategoriViewModel() {
         prodiRepository = MyRepository.get();
-        listKategori = prodiRepository.getListDataKategoriByProgram("1");
+        listKategori = new MutableLiveData<>();
+//        listKategori = prodiRepository.getListDataKategoriByProgram("1");
 
+    }
+    public void loadListKategoriByProgram(String programId) {
+        listKategori = prodiRepository.getListDataKategoriByProgram(programId);
     }
 
     public LiveData<List<KategoriModel>> getListKategori() {
