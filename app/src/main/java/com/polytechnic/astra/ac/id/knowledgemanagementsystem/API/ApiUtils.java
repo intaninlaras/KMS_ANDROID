@@ -1,23 +1,36 @@
 package com.polytechnic.astra.ac.id.knowledgemanagementsystem.API;
-import com.polytechnic.astra.ac.id.knowledgemanagementsystem.API.Service.LoginService;
-import com.polytechnic.astra.ac.id.knowledgemanagementsystem.API.Service.PKService;
-import com.polytechnic.astra.ac.id.knowledgemanagementsystem.API.Service.ProdiService;
+
+import com.polytechnic.astra.ac.id.knowledgemanagementsystem.API.Service.MyService;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import java.util.concurrent.TimeUnit;
 
 public class ApiUtils {
 
-    public static final String API_URL = "";
+    public static final String API_URL = "http://10.1.11.136:8080/";
+    private static Retrofit retrofit = null;
 
-    public ApiUtils() {
+    public static Retrofit getClient(String baseUrl) {
+        if (retrofit == null) {
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .build();
+
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .client(okHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit;
     }
 
-    public static ProdiService getProdiService(){
-        return RetrofitClient.getClient(API_URL).create(ProdiService.class);
-    }
-
-    public static PKService getPKService(){
-        return RetrofitClient.getClient(API_URL).create(PKService.class);
-    }
-    public static LoginService getLoginService(){
-        return RetrofitClient.getClient(API_URL).create(LoginService.class);
+    public static MyService getProdiService() {
+        return getClient(API_URL).create(MyService.class);
     }
 }

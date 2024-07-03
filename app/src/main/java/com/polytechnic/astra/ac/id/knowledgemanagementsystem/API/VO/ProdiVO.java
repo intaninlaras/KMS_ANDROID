@@ -1,9 +1,10 @@
-package com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model;
+package com.polytechnic.astra.ac.id.knowledgemanagementsystem.API.VO;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
-public class ProdiModel {
+public class ProdiVO {
 
     @SerializedName("Value")
     @Expose
@@ -13,10 +14,10 @@ public class ProdiModel {
     @Expose
     private String Text;
 
-    public ProdiModel() {
+    public ProdiVO() {
     }
 
-    public ProdiModel(String Value, String Text) {
+    public ProdiVO(String Value, String Text) {
         this.Value = Value;
         this.Text = Text;
     }

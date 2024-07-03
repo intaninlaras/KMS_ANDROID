@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- State when bookmark is selected -->
+    <item android:state_selected="true">
+        <bitmap
+            android:src="@drawable/ic_bookmark"
+            android:tint="#036ED1" />
+    </item>
+    <!-- Default state when bookmark is not selected -->
+    <item android:state_selected="false">
+        <bitmap
+            android:src="@drawable/ic_bookmark_border"
+            android:tint="#036ED1" />
+    </item>
+</selector>
