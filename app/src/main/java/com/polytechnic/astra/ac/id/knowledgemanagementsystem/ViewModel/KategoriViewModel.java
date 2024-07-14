@@ -7,24 +7,24 @@ import androidx.lifecycle.ViewModel;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.API.Repository.MyRepository;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.API.VO.KategoriViewVO;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model.KategoriModel;
+import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model.ProgramModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class KategoriViewModel extends ViewModel {
-    private MutableLiveData<List<KategoriModel>> listKategori;
-    private MyRepository prodiRepository;
+    private MutableLiveData<List<KategoriModel>> mListKategori;
+    private MyRepository mMyRepository;
     public KategoriViewModel() {
-        prodiRepository = MyRepository.get();
-        listKategori = new MutableLiveData<>();
-//        listKategori = prodiRepository.getListDataKategoriByProgram("1");
-
+        mMyRepository = MyRepository.get();
+        mListKategori = new MutableLiveData<>();
     }
-    public void loadListKategoriByProgram(String programId) {
-        listKategori = prodiRepository.getListDataKategoriByProgram(programId);
+    public MutableLiveData<List<KategoriModel>> loadListKategoriByProgram(String pro_id){
+        mListKategori = mMyRepository.findAllKategoribyProgram(pro_id);
+        return mListKategori;
     }
 
     public LiveData<List<KategoriModel>> getListKategori() {
-        return listKategori;
+        return mListKategori;
     }
 }

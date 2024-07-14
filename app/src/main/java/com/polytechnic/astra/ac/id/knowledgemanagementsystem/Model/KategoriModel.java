@@ -1,12 +1,29 @@
 package com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class KategoriModel {
+    @SerializedName("kat_id")
+    @Expose
     private String katId;
+    @SerializedName("kat_nama")
+    @Expose
     private String katNama;
+    @SerializedName("kat_desktipsi")
+    @Expose
     private String katDeskripsi;
+    @SerializedName("kat_status")
+    @Expose
     private String katStatus;
+    @SerializedName("pro_id")
+    @Expose
     private String proId;
+    @SerializedName("pro_nama")
+    @Expose
     private String proNama;
+    @SerializedName("jumlahMateri")
+    @Expose
     private String jumlahMateri;
 
     // Constructors

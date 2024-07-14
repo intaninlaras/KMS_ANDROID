@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Fragment.HomeFragment;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Fragment.LoginFragment;
+import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Fragment.RiwayatMateriFragment;
 
 public class MainActivity extends AppCompatActivity {
     @Override

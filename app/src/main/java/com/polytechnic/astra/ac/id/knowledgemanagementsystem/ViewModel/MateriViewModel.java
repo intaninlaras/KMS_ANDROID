@@ -11,19 +11,19 @@ import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model.ProgramModel;
 import java.util.List;
 
 public class MateriViewModel extends ViewModel {
-    private MutableLiveData<List<MateriModel>> getListMateri;
-    private MyRepository prodiRepository;
+    private MutableLiveData<List<MateriModel>> mListMateri;
+    private MyRepository mMyRepository;
 
     public MateriViewModel() {
-        prodiRepository = MyRepository.get();
-        getListMateri = new MutableLiveData<>();
-//        getListMateri = prodiRepository.getListDataMateriByKategori("1");
+        mMyRepository = MyRepository.get();
+        mListMateri = new MutableLiveData<>();
     }
 
-    public void loadListMateriByKategori(String kategoriId) {
-        getListMateri = prodiRepository.getListDataMateriByKategori(kategoriId);
+    public MutableLiveData<List<MateriModel>> loadListMateriByKategori(String kat_id){
+        mListMateri = mMyRepository.findAllMateriByKategori(kat_id);
+        return mListMateri;
     }
     public LiveData<List<MateriModel>> getListMateri() {
-        return getListMateri;
+        return mListMateri;
     }
 }

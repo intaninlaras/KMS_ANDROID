@@ -26,19 +26,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MateriFragment extends Fragment {
-    private MateriViewModel materiViewModel;
-    private RecyclerView recyclerView;
-    private MateriAdapter materiAdapter;
-    private String katId;
-    private String katNama;
-    private String katDesk;
-    private String programId;
-    private String namaProgram;
-    private static String KKId;
-    private static String namaKK;
-    private static String deskKK;
-    private String prodiId;
-    private String prodiNama;
+    private MateriViewModel mMateriViewModel;
+    private RecyclerView mRecyclerView;
+    private MateriAdapter mMateriAdapter;
+    private String mKatId;
+    private String mKatNama;
+    private String mKatDesk;
+    private String mProgramId;
+    private String mNamaProgram;
+    private static String mKKId;
+    private static String mNamaKK;
+    private static String mDeskKK;
+    private String mProdiId;
+    private String mProdiNama;
 
     public static MateriFragment newInstance() {
         return new MateriFragment();
@@ -55,34 +55,34 @@ public class MateriFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            katId = getArguments().getString("kategori_id");
-            katNama = getArguments().getString("nama_kategori");
-            katDesk = getArguments().getString("desk_kategori");
-            programId = getArguments().getString("program_id");
-            namaProgram = getArguments().getString("nama_program");
-            KKId = getArguments().getString("kk_id");
-            namaKK = getArguments().getString("nama_kk");
-            deskKK = getArguments().getString("desk_kk");
-            prodiId = getArguments().getString("prodi_id");
-            prodiNama = getArguments().getString("nama_prodi");
+            mKatId = getArguments().getString("kategori_id");
+            mKatNama = getArguments().getString("nama_kategori");
+            mKatDesk = getArguments().getString("desk_kategori");
+            mProgramId = getArguments().getString("program_id");
+            mNamaProgram = getArguments().getString("nama_program");
+            mKKId = getArguments().getString("kk_id");
+            mNamaKK = getArguments().getString("nama_kk");
+            mDeskKK = getArguments().getString("desk_kk");
+            mProdiId = getArguments().getString("prodi_id");
+            mProdiNama = getArguments().getString("nama_prodi");
             TextView txvProdi = view.findViewById(R.id.header_title);
-            txvProdi.setText(katNama);
+            txvProdi.setText(mKatNama);
         }
 
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        materiAdapter = new MateriAdapter();
-        recyclerView.setAdapter(materiAdapter);
+        mRecyclerView = view.findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mMateriAdapter = new MateriAdapter();
+        mRecyclerView.setAdapter(mMateriAdapter);
 
-        materiViewModel = new ViewModelProvider(this).get(MateriViewModel.class);
+        mMateriViewModel = new ViewModelProvider(this).get(MateriViewModel.class);
 
-        // Panggil metode ViewModel dengan prodiId
-        materiViewModel.loadListMateriByKategori(katId);
-        materiViewModel = new ViewModelProvider(this).get(MateriViewModel.class);
-        materiViewModel.getListMateri().observe(getViewLifecycleOwner(), new Observer<List<MateriModel>>() {
+        // Panggil metode ViewModel dengan mProdiId
+        mMateriViewModel.loadListMateriByKategori(mKatId);
+        mMateriViewModel = new ViewModelProvider(this).get(MateriViewModel.class);
+        mMateriViewModel.getListMateri().observe(getViewLifecycleOwner(), new Observer<List<MateriModel>>() {
             @Override
             public void onChanged(List<MateriModel> materiViewVOS) {
-                materiAdapter.setMateriList(materiViewVOS);
+                mMateriAdapter.setMateriList(materiViewVOS);
             }
         });
 
@@ -92,13 +92,13 @@ public class MateriFragment extends Fragment {
             public void onClick(View v) {
                 KategoriFragment kategoriFragment = KategoriFragment.newInstance();
                 Bundle args = new Bundle();
-                args.putString("program_id", programId);
-                args.putString("nama_program", namaProgram);
-                args.putString("kk_id", KKId);
-                args.putString("nama_kk", namaKK);
-                args.putString("desk_kk", deskKK);
-                args.putString("prodi_id", prodiId);
-                args.putString("nama_prodi", prodiNama);
+                args.putString("program_id", mProgramId);
+                args.putString("nama_program", mNamaProgram);
+                args.putString("kk_id", mKKId);
+                args.putString("nama_kk", mNamaKK);
+                args.putString("desk_kk", mDeskKK);
+                args.putString("prodi_id", mProdiId);
+                args.putString("nama_prodi", mProdiNama);
                 kategoriFragment.setArguments(args);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
@@ -124,6 +124,22 @@ public class MateriFragment extends Fragment {
             MateriModel materi = materiList.get(position);
             holder.judul.setText(materi.getMatJudul());
             holder.keterangan.setText(materi.getMatKeterangan());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    DetailMateriFragment materiDetailFragment = DetailMateriFragment.newInstance();
+//                    Bundle args = new Bundle();
+//                    args.putString("mat_id", materi.getMatId());
+//                    args.putString("mat_judul", materi.getMatJudul());
+//                    args.putString("mat_keterangan", materi.getMatKeterangan());
+//                    materiDetailFragment.setArguments(args);
+//
+//                    FragmentTransaction transaction = ((Fragment) v.getContext()).getParentFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.fragment_container, materiDetailFragment);
+//                    transaction.addToBackStack(null);
+//                    transaction.commit();
+                }
+            });
         }
 
         @Override

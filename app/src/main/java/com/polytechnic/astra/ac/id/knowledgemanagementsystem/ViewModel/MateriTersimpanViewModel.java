@@ -7,20 +7,22 @@ import androidx.lifecycle.ViewModel;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.API.Repository.MyRepository;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.API.VO.MateriViewVO;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model.MateriModel;
+import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model.ProdiModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MateriTersimpanViewModel extends ViewModel {
-    private MutableLiveData<List<MateriModel>> listMateri;
-    private MyRepository prodiRepository;
+    private MutableLiveData<List<MateriModel>> mListMateri;
+    private MyRepository mMyRepository;
 
     public MateriTersimpanViewModel() {
-        prodiRepository = MyRepository.get();
-        listMateri = prodiRepository.getListRiwayatMateri("0320220086");
+        mMyRepository = MyRepository.get();
+        mListMateri = new MutableLiveData<>();
     }
-    public LiveData<List<MateriModel>> getListMateri() {
-        return listMateri;
+    public MutableLiveData<List<MateriModel>> getListMateri(String kry_id){
+        mListMateri = mMyRepository.findAllRiwayatMateri(kry_id);
+        return mListMateri;
     }
 }
 

@@ -50,7 +50,7 @@ public class MateriTersimpanFragment extends Fragment {
         recyclerView.setAdapter(materiAdapter);
 
         materiViewModel = new ViewModelProvider(this).get(MateriTersimpanViewModel.class);
-        materiViewModel.getListMateri().observe(getViewLifecycleOwner(), new Observer<List<MateriModel>>() {
+        materiViewModel.getListMateri("0320220086").observe(getViewLifecycleOwner(), new Observer<List<MateriModel>>() {
             @Override
             public void onChanged(List<MateriModel> materiViewVOS) {
                 materiAdapter.setMateriList(materiViewVOS);

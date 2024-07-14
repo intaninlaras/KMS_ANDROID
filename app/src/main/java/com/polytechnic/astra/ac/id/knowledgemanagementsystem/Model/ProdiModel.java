@@ -5,35 +5,35 @@ import com.google.gson.annotations.SerializedName;
 
 public class ProdiModel {
 
-    @SerializedName("Value")
+    @SerializedName("pro_id")
     @Expose
-    private String Value;
+    private String pro_id;
 
-    @SerializedName("Text")
+    @SerializedName("pro_nama")
     @Expose
-    private String Text;
+    private String pro_nama;
 
     public ProdiModel() {
     }
 
-    public ProdiModel(String Value, String Text) {
-        this.Value = Value;
-        this.Text = Text;
+    public ProdiModel(String pro_id, String pro_nama) {
+        this.pro_id = pro_id;
+        this.pro_nama = pro_nama;
     }
 
-    public String getValue() {
-        return Value;
+    public String getPro_id() {
+        return pro_id;
     }
 
-    public void setValue(String value) {
-        Value = value;
+    public void setPro_id(String pro_id) {
+        this.pro_id = pro_id;
     }
 
-    public String getText() {
-        return Text;
+    public String getPro_nama() {
+        return pro_nama;
     }
 
-    public void setText(String text) {
-        Text = text;
+    public void setPro_nama(String pro_nama) {
+        this.pro_nama = pro_nama;
     }
 }

@@ -26,10 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RiwayatMateriFragment extends Fragment {
-    private RiwayatMateriViewModel materiViewModel;
-    private RecyclerView recyclerView;
-    private MateriAdapter materiAdapter;
+    private RiwayatMateriViewModel mMateriViewModel;
+    private RecyclerView mRecyclerView;
+    private MateriAdapter mMateriAdapter;
     private ImageButton mBtnBack;
+    private String mKry_id;
 
     public static RiwayatMateriFragment newInstance() {
         return new RiwayatMateriFragment();
@@ -45,16 +46,17 @@ public class RiwayatMateriFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        materiAdapter = new MateriAdapter();
-        recyclerView.setAdapter(materiAdapter);
+        mRecyclerView = view.findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mMateriAdapter = new MateriAdapter();
+        mRecyclerView.setAdapter(mMateriAdapter);
 
-        materiViewModel = new ViewModelProvider(this).get(RiwayatMateriViewModel.class);
-        materiViewModel.getListMateri().observe(getViewLifecycleOwner(), new Observer<List<MateriModel>>() {
+        mMateriViewModel = new ViewModelProvider(this).get(RiwayatMateriViewModel.class);
+        mKry_id = "0320220086";
+        mMateriViewModel.getListRiwayatMateri(mKry_id).observe(getViewLifecycleOwner(), new Observer<List<MateriModel>>() {
             @Override
             public void onChanged(List<MateriModel> materiViewVOS) {
-                materiAdapter.setMateriList(materiViewVOS);
+                mMateriAdapter.setMateriList(materiViewVOS);
             }
         });
 

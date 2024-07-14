@@ -29,14 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private HomeViewModel homeViewModel;
-    private ProdiViewModel prodiViewModel;
-    private RecyclerView recyclerRiwayatMateri;
-    private RecyclerView recyclerMateriTersimpan;
-    private RecyclerView recyclerListProdi;
-    private MateriAdapter riwayatMateriAdapter;
-    private ProdiAdapter prodiAdapter;
-    private MateriAdapter materiTersimpanAdapter;
+    private HomeViewModel mHomeViewModel;
+    private RecyclerView mRecyclerView;
+    private MateriAdapter mRiwayatMateriAdapter;
+    private ProdiAdapter mProdiAdapter;
+    private MateriAdapter mMateriTersimpanAdapter;
     private TextView mTxvRiwayat;
     private TextView mTxvTersimpan;
     private ImageButton mBtnLogout;
@@ -56,49 +53,47 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Setup RecyclerView untuk Riwayat Materi
-        recyclerRiwayatMateri = view.findViewById(R.id.recycler_riwayat_materi);
-        recyclerRiwayatMateri.setLayoutManager(new LinearLayoutManager(getContext()));
-        riwayatMateriAdapter = new MateriAdapter();
-        recyclerRiwayatMateri.setAdapter(riwayatMateriAdapter);
+        mRecyclerView = view.findViewById(R.id.recycler_riwayat_materi);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRiwayatMateriAdapter = new MateriAdapter();
+        mRecyclerView.setAdapter(mRiwayatMateriAdapter);
 
         // Setup RecyclerView untuk Materi Tersimpan
-        recyclerMateriTersimpan = view.findViewById(R.id.recycler_materi_tersimpan);
-        recyclerMateriTersimpan.setLayoutManager(new LinearLayoutManager(getContext()));
-        materiTersimpanAdapter = new MateriAdapter();
-        recyclerMateriTersimpan.setAdapter(materiTersimpanAdapter);
+        mRecyclerView = view.findViewById(R.id.recycler_materi_tersimpan);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mMateriTersimpanAdapter = new MateriAdapter();
+        mRecyclerView.setAdapter(mMateriTersimpanAdapter);
 
         // Setup RecyclerView untuk Prodi
-        recyclerListProdi = view.findViewById(R.id.recycler_program_studi);
-        recyclerListProdi.setLayoutManager(new LinearLayoutManager(getContext()));
-        prodiAdapter = new ProdiAdapter();
-        recyclerListProdi.setAdapter(prodiAdapter);
+        mRecyclerView = view.findViewById(R.id.recycler_program_studi);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mProdiAdapter = new ProdiAdapter();
+        mRecyclerView.setAdapter(mProdiAdapter);
 
-        prodiViewModel = new ViewModelProvider(this).get(ProdiViewModel.class);
-        prodiViewModel.getListProdi().observe(getViewLifecycleOwner(), new Observer<List<ProdiModel>>() {
+        mHomeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        // Prodi
+        mHomeViewModel.getListProdi().observe(getViewLifecycleOwner(), new Observer<List<ProdiModel>>() {
             @Override
             public void onChanged(List<ProdiModel> prodiViewVOS) {
-                prodiAdapter.setProdiList(prodiViewVOS);
+                mProdiAdapter.setProdiList(prodiViewVOS);
             }
         });
-
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-
         // Riwayat Materi
-        homeViewModel.getRiwayatMateri().observe(getViewLifecycleOwner(), new Observer<List<MateriModel>>() {
+        mHomeViewModel.getRiwayatMateri("0320220086").observe(getViewLifecycleOwner(), new Observer<List<MateriModel>>() {
             @Override
             public void onChanged(List<MateriModel> materiViewVOS) {
                 if (materiViewVOS != null && !materiViewVOS.isEmpty()) {
-                    riwayatMateriAdapter.setSingleMateri(materiViewVOS.get(0));
+                    mRiwayatMateriAdapter.setSingleMateri(materiViewVOS.get(0));
                 }
             }
         });
 
         // Materi Tersimpan
-        homeViewModel.getMateriTersimpan().observe(getViewLifecycleOwner(), new Observer<List<MateriModel>>() {
+        mHomeViewModel.getMateriTersimpan("0320220086").observe(getViewLifecycleOwner(), new Observer<List<MateriModel>>() {
             @Override
             public void onChanged(List<MateriModel> materiViewVOS) {
                 if (materiViewVOS != null && !materiViewVOS.isEmpty()) {
-                    materiTersimpanAdapter.setSingleMateri(materiViewVOS.get(0));
+                    mMateriTersimpanAdapter.setSingleMateri(materiViewVOS.get(0));
                 }
             }
         });
@@ -108,7 +103,6 @@ public class HomeFragment extends Fragment {
         mBtnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Ganti fragment saat ini dengan LoginFragment
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, new LoginFragment());
                 transaction.addToBackStack(null);
@@ -121,7 +115,6 @@ public class HomeFragment extends Fragment {
         mTxvRiwayat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Ganti fragment saat ini dengan RiwayatMateriFragment
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, new RiwayatMateriFragment());
                 transaction.addToBackStack(null);
@@ -133,7 +126,6 @@ public class HomeFragment extends Fragment {
         mTxvTersimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Ganti fragment saat ini dengan MateriTersimpanFragment
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, new MateriTersimpanFragment());
                 transaction.addToBackStack(null);
@@ -155,18 +147,16 @@ public class HomeFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ProdiViewHolder holder, int position) {
             ProdiModel prodi = prodiList.get(position);
-            holder.mTxvNamaProdi.setText(prodi.getText());
+            holder.mTxvNamaProdi.setText(prodi.getPro_nama());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Dapatkan instance dari KKViewModel
                     KKViewModel kkViewModel = new ViewModelProvider((FragmentActivity) v.getContext()).get(KKViewModel.class);
 
-                    // Ganti fragment saat ini dengan KKFragment dan kirim data ProdiModel
                     KKFragment kkFragment = KKFragment.newInstance();
                     Bundle args = new Bundle();
-                    args.putString("prodi_id", prodi.getValue());
-                    args.putString("nama_prodi", prodi.getText());
+                    args.putString("prodi_id", prodi.getPro_id());
+                    args.putString("nama_prodi", prodi.getPro_nama());
                     kkFragment.setArguments(args);
                     FragmentTransaction transaction = ((FragmentActivity) v.getContext()).getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, kkFragment);
@@ -175,7 +165,6 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
-
 
         @Override
         public int getItemCount() {
@@ -196,8 +185,6 @@ public class HomeFragment extends Fragment {
             }
         }
     }
-
-
 
     private static class MateriAdapter extends RecyclerView.Adapter<MateriAdapter.MateriViewHolder> {
         private MateriModel singleMateri;

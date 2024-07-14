@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.R;
 
 public class LoginFragment extends Fragment {
+    private Button mBtnLogin;
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
@@ -22,8 +23,8 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        Button loginButton = view.findViewById(R.id.btn_login);
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        mBtnLogin = view.findViewById(R.id.btn_login);
+        mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navigateToHomeFragment();

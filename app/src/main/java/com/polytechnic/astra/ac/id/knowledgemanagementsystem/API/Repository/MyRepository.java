@@ -16,6 +16,7 @@ import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model.ProgramModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -26,12 +27,12 @@ import retrofit2.Response;
 public class MyRepository {
     private static final String COOKIE = "_ga=GA1.1.1011038483.1702824372; cookie=%7B%22kry_id%22%3A%222%22%2C%22apk_id%22%3A%222%22%2C%22rol_id%22%3A%222%22%7D; ci_session=nm1lunbpb26hbqq99j4t233au787fndp";
     private static final String ACCEPT = "application/json";
-    private static final String TAG = "ProdiRepository";
+    private static final String TAG = "MyRepository";
     private static MyRepository INSTANCE;
-    private MyService mProdiService;
+    private MyService mMyService;
 
     private MyRepository(Context context) {
-        mProdiService = ApiUtils.getProdiService();
+        mMyService = ApiUtils.getProdiService();
     }
 
     public static synchronized void initialize(Context context) {
@@ -43,198 +44,253 @@ public class MyRepository {
     public static MyRepository get() {
         return INSTANCE;
     }
-    public MutableLiveData<List<ProdiModel>> getListProdi() {
+    //List Prodi
+    public MutableLiveData<List<ProdiModel>> findAllProdi() {
         MutableLiveData<List<ProdiModel>> data = new MutableLiveData<>();
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), "{}");
-        Call<List<ProdiModel>> call = mProdiService.getDataProdi(COOKIE, ACCEPT, body);        call.enqueue(new Callback<List<ProdiModel>>() {
+        Call<Map<String, Object>> call = mMyService.findallprodi();
+        call.enqueue(new Callback<Map<String, Object>>() {
             @Override
-            public void onResponse(Call<List<ProdiModel>> call, Response<List<ProdiModel>> response) {
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<ProdiModel> prodiViewList = new ArrayList<>();
-                    for (ProdiModel prodiModel : response.body()) {
-                        ProdiModel prodiView = new ProdiModel();
-                        prodiView.setValue(prodiModel.getValue());
-                        prodiView.setText(prodiModel.getText());
-//                        prodiView.setText(prodiModel.getDeskripsi());
-                        prodiViewList.add(prodiView);
+                    Map<String, Object> responseBody = response.body();
+                    int code = ((Double) responseBody.get("code")).intValue();
+                    String message = (String) responseBody.get("message");
+                    List<Map<String, String>> dataList = (List<Map<String, String>>) responseBody.get("data");
+
+                    List<ProdiModel> mahasiswaList = new ArrayList<>();
+                    for (Map<String, String> mahasiswa : dataList) {
+                        ProdiModel mahasiswaVO = new ProdiModel(
+                                mahasiswa.get("pro_id"),
+                                mahasiswa.get("pro_nama")
+                        );
+                        mahasiswaList.add(mahasiswaVO);
                     }
-                    data.setValue(prodiViewList);
-                    Log.d(TAG, "Data size: " + prodiViewList.size());
+                    data.setValue(mahasiswaList);
                 } else {
-                    Log.e(TAG, "Response is not successful or body is null");
+                    data.setValue(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<ProdiModel>> call, Throwable t) {
-                Log.e(TAG, "Error API call: " + t.getMessage());
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                data.setValue(null);
             }
         });
+
         return data;
     }
 
-    public MutableLiveData<List<MateriModel>> getListRiwayatMateri(String kryId) {
+    //List Riwayat Materi
+    public MutableLiveData<List<MateriModel>> findAllRiwayatMateri(String kry_id) {
         MutableLiveData<List<MateriModel>> data = new MutableLiveData<>();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("p1", kryId);
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
-        Call<List<MateriModel>> call = mProdiService.getRiwayatMateri(COOKIE, ACCEPT, body);
-        call.enqueue(new Callback<List<MateriModel>>() {
+        Call<Map<String, Object>> call = mMyService.getAllRiwayatMateri(kry_id);
+        call.enqueue(new Callback<Map<String, Object>>() {
             @Override
-            public void onResponse(Call<List<MateriModel>> call, Response<List<MateriModel>> response) {
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<MateriModel> prodiViewList = new ArrayList<>();
-                    for (MateriModel materiModel : response.body()) {
-                        MateriModel materiView = new MateriModel();
-                        materiView.setMatId(materiModel.getMatId());
-                        materiView.setMatJudul(materiModel.getMatJudul());
-                        materiView.setMatKeterangan(materiModel.getMatKeterangan());
-                        prodiViewList.add(materiView);
+                    Map<String, Object> responseBody = response.body();
+                    int code = ((Double) responseBody.get("code")).intValue();
+                    String message = (String) responseBody.get("message");
+                    List<Map<String, String>> dataList = (List<Map<String, String>>) responseBody.get("data");
+
+                    List<MateriModel> mahasiswaList = new ArrayList<>();
+                    for (Map<String, String> mahasiswa : dataList) {
+                        MateriModel mahasiswaVO = new MateriModel(
+                                mahasiswa.get("mat_id"),
+                                mahasiswa.get("kat_id"),
+                                mahasiswa.get("mat_judul"),
+                                mahasiswa.get("mat_file_pdf"),
+                                mahasiswa.get("mat_file_video"),
+                                mahasiswa.get("mat_pengenalan"),
+                                mahasiswa.get("mat_keterangan")
+                        );
+                        mahasiswaList.add(mahasiswaVO);
                     }
-                    data.setValue(prodiViewList);
-                    Log.d(TAG, "Data size: " + prodiViewList.size());
+                    data.setValue(mahasiswaList);
                 } else {
-                    Log.e(TAG, "Response is not successful or body is null");
+                    data.setValue(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<MateriModel>> call, Throwable t) {
-                Log.e(TAG, "Error API call: " + t.getMessage());
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                data.setValue(null);
             }
         });
+
         return data;
     }
 
-    public MutableLiveData<List<KKModel>> getListDataKKByProdi(String proId) {
+    //List KK Berdasarkan Prodi
+    public MutableLiveData<List<KKModel>> findAllKKbyProdi(String pro_id) {
         MutableLiveData<List<KKModel>> data = new MutableLiveData<>();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("p1", proId);
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
-        Call<List<KKModel>> call = mProdiService.getDataKKByProdi(COOKIE,ACCEPT,body);
-        call.enqueue(new Callback<List<KKModel>>() {
+        Call<Map<String, Object>> call = mMyService.getAllKKByProdi(pro_id);
+        call.enqueue(new Callback<Map<String, Object>>() {
             @Override
-            public void onResponse(Call<List<KKModel>> call, Response<List<KKModel>> response) {
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<KKModel> prodiViewList = new ArrayList<>();
-                    for (KKModel KKModel : response.body()) {
-                        KKModel KKView = new KKModel();
-                        KKView.setKkeId(KKModel.getKkeId());
-                        KKView.setKkeNama(KKModel.getKkeNama());
-                        KKView.setKkeDeskripsi(KKModel.getKkeDeskripsi());
-                        KKView.setProNama(KKModel.getProNama());
-                        prodiViewList.add(KKView);
+                    Map<String, Object> responseBody = response.body();
+                    int code = ((Double) responseBody.get("code")).intValue();
+                    String message = (String) responseBody.get("message");
+                    List<Map<String, String>> dataList = (List<Map<String, String>>) responseBody.get("data");
+
+                    List<KKModel> mahasiswaList = new ArrayList<>();
+                    for (Map<String, String> mahasiswa : dataList) {
+                        KKModel mahasiswaVO = new KKModel(
+                                mahasiswa.get("kke_id"),
+                                mahasiswa.get("kke_nama"),
+                                mahasiswa.get("pro_id"),
+                                mahasiswa.get("kry_id"),
+                                mahasiswa.get("kke_deskripsi"),
+                                mahasiswa.get("kke_status"),
+                                mahasiswa.get("kke_created_by"),
+                                mahasiswa.get("kke_created_date"),
+                                mahasiswa.get("kke_modif_by"),
+                                mahasiswa.get("kke_modif_date"),
+                                mahasiswa.get("pro_nama")
+                        );
+                        mahasiswaList.add(mahasiswaVO);
                     }
-                    data.setValue(prodiViewList);
-                    Log.d(TAG, "Data size: " + prodiViewList.size());
+                    data.setValue(mahasiswaList);
                 } else {
-                    Log.e(TAG, "Response is not successful or body is null");
+                    data.setValue(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<KKModel>> call, Throwable t) {
-                Log.e(TAG, "Error API call: " + t.getMessage());
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                // Handle failure
+                data.setValue(null);
             }
         });
+
         return data;
     }
 
-    public MutableLiveData<List<ProgramModel>> getListDataProgramByKK(String kkId) {
+    //List Program Berdasarkan KK
+    public MutableLiveData<List<ProgramModel>> findAllProgrambyKK(String kke_id) {
         MutableLiveData<List<ProgramModel>> data = new MutableLiveData<>();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("p1", kkId);
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
-        Call<List<ProgramModel>> call = mProdiService.getDataProgramByKK(COOKIE,ACCEPT,body);
-        call.enqueue(new Callback<List<ProgramModel>>() {
+        Call<Map<String, Object>> call = mMyService.getAllProgramByKK(kke_id);
+        call.enqueue(new Callback<Map<String, Object>>() {
             @Override
-            public void onResponse(Call<List<ProgramModel>> call, Response<List<ProgramModel>> response) {
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<ProgramModel> prodiViewList = new ArrayList<>();
-                    for (ProgramModel programModel : response.body()) {
-                        ProgramModel KKView = new ProgramModel();
-                        KKView.setProId(programModel.getProId());
-                        KKView.setProNama(programModel.getProNama());
-                        KKView.setProDeskripsi(programModel.getProDeskripsi());
-                        prodiViewList.add(KKView);
+                    Map<String, Object> responseBody = response.body();
+                    int code = ((Double) responseBody.get("code")).intValue();
+                    String message = (String) responseBody.get("message");
+                    List<Map<String, String>> dataList = (List<Map<String, String>>) responseBody.get("data");
+
+                    List<ProgramModel> mahasiswaList = new ArrayList<>();
+                    for (Map<String, String> mahasiswa : dataList) {
+                        ProgramModel mahasiswaVO = new ProgramModel(
+                                mahasiswa.get("pro_id"),
+                                mahasiswa.get("pro_nama"),
+                                mahasiswa.get("pro_deskripsi"),
+                                mahasiswa.get("pro_status"),
+                                mahasiswa.get("pro_created_by"),
+                                mahasiswa.get("pro_created_date"),
+                                mahasiswa.get("pro_modif_by"),
+                                mahasiswa.get("pro_modif_date"),
+                                mahasiswa.get("kke_id"),
+                                mahasiswa.get("kke_nama")
+                        );
+                        mahasiswaList.add(mahasiswaVO);
                     }
-                    data.setValue(prodiViewList);
-                    Log.d(TAG, "Data size: " + prodiViewList.size());
+                    data.setValue(mahasiswaList);
                 } else {
-                    Log.e(TAG, "Response is not successful or body is null");
+                    data.setValue(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<ProgramModel>> call, Throwable t) {
-                Log.e(TAG, "Error API call: " + t.getMessage());
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                data.setValue(null);
             }
         });
+
         return data;
     }
-    public MutableLiveData<List<KategoriModel>> getListDataKategoriByProgram(String proId) {
+
+    //List Kategori Berdasarkan Program
+    public MutableLiveData<List<KategoriModel>> findAllKategoribyProgram(String pro_id) {
         MutableLiveData<List<KategoriModel>> data = new MutableLiveData<>();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("p1", proId);
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
-        Call<List<KategoriModel>> call = mProdiService.getDataKategoriByProgram(COOKIE,ACCEPT,body);
-        call.enqueue(new Callback<List<KategoriModel>>() {
+        Call<Map<String, Object>> call = mMyService.getAllKategoriByProgram(pro_id);
+        call.enqueue(new Callback<Map<String, Object>>() {
             @Override
-            public void onResponse(Call<List<KategoriModel>> call, Response<List<KategoriModel>> response) {
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<KategoriModel> prodiViewList = new ArrayList<>();
-                    for (KategoriModel programModel : response.body()) {
-                        KategoriModel KKView = new KategoriModel();
-                        KKView.setKatId(programModel.getKatId());
-                        KKView.setKatNama(programModel.getKatNama());
-                        KKView.setKatDeskripsi(programModel.getKatDeskripsi());
-                        KKView.setJumlahMateri(programModel.getJumlahMateri());
-                        prodiViewList.add(KKView);
+                    Map<String, Object> responseBody = response.body();
+                    int code = ((Double) responseBody.get("code")).intValue();
+                    String message = (String) responseBody.get("message");
+                    List<Map<String, String>> dataList = (List<Map<String, String>>) responseBody.get("data");
+
+                    List<KategoriModel> mahasiswaList = new ArrayList<>();
+                    for (Map<String, String> mahasiswa : dataList) {
+                        KategoriModel mahasiswaVO = new KategoriModel(
+                                mahasiswa.get("kat_id"),
+                                mahasiswa.get("kat_nama"),
+                                mahasiswa.get("kat_deskripsi"),
+                                mahasiswa.get("kat_status"),
+                                mahasiswa.get("pro_id"),
+                                mahasiswa.get("pro_nama"),
+                                mahasiswa.get("jumlahMateri")
+                        );
+                        mahasiswaList.add(mahasiswaVO);
                     }
-                    data.setValue(prodiViewList);
-                    Log.d(TAG, "Data size: " + prodiViewList.size());
+
+                    data.setValue(mahasiswaList);
                 } else {
-                    Log.e(TAG, "Response is not successful or body is null");
+                    data.setValue(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<KategoriModel>> call, Throwable t) {
-                Log.e(TAG, "Error API call: " + t.getMessage());
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                data.setValue(null);
             }
         });
+
         return data;
     }
-    public MutableLiveData<List<MateriModel>> getListDataMateriByKategori(String proId) {
+    //List Materi Berdasarkan Kategori
+    public MutableLiveData<List<MateriModel>> findAllMateriByKategori(String kat_id) {
         MutableLiveData<List<MateriModel>> data = new MutableLiveData<>();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("p1", proId);
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
-        Call<List<MateriModel>> call = mProdiService.getDataMateriByKategori(COOKIE,ACCEPT,body);
-        call.enqueue(new Callback<List<MateriModel>>() {
+        Call<Map<String, Object>> call = mMyService.getAllMateriByKategori(kat_id);
+        call.enqueue(new Callback<Map<String, Object>>() {
             @Override
-            public void onResponse(Call<List<MateriModel>> call, Response<List<MateriModel>> response) {
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<MateriModel> prodiViewList = new ArrayList<>();
-                    for (MateriModel programModel : response.body()) {
-                        MateriModel KKView = new MateriModel();
-                        KKView.setMatId(programModel.getMatId());
-                        KKView.setMatJudul(programModel.getMatJudul());
-                        KKView.setMatKeterangan(programModel.getMatKeterangan());
-                        prodiViewList.add(KKView);
+                    Map<String, Object> responseBody = response.body();
+                    int code = ((Double) responseBody.get("code")).intValue();
+                    String message = (String) responseBody.get("message");
+                    List<Map<String, String>> dataList = (List<Map<String, String>>) responseBody.get("data");
+
+                    List<MateriModel> mahasiswaList = new ArrayList<>();
+                    for (Map<String, String> mahasiswa : dataList) {
+                        MateriModel mahasiswaVO = new MateriModel(
+                                mahasiswa.get("mat_id"),
+                                mahasiswa.get("kat_id"),
+                                mahasiswa.get("mat_judul"),
+                                mahasiswa.get("mat_file_pdf"),
+                                mahasiswa.get("mat_file_video"),
+                                mahasiswa.get("mat_pengenalan"),
+                                mahasiswa.get("mat_keterangan")
+                        );
+                        mahasiswaList.add(mahasiswaVO);
                     }
-                    data.setValue(prodiViewList);
-                    Log.d(TAG, "Data size: " + prodiViewList.size());
+
+                    data.setValue(mahasiswaList);
                 } else {
-                    Log.e(TAG, "Response is not successful or body is null");
+                    data.setValue(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<MateriModel>> call, Throwable t) {
-                Log.e(TAG, "Error API call: " + t.getMessage());
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                data.setValue(null);
             }
         });
+
         return data;
     }
 }

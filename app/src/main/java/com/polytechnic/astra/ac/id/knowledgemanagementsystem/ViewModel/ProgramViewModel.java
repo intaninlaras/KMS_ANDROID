@@ -10,35 +10,25 @@ import androidx.lifecycle.ViewModel;
 
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.API.Repository.MyRepository;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.API.VO.ProgramViewVO;
+import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model.KKModel;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model.ProgramModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProgramViewModel extends ViewModel {
-    private MutableLiveData<List<ProgramModel>> listProgram;
-    private MyRepository prodiRepository;
+    private MutableLiveData<List<ProgramModel>> mListProgram;
+    private MyRepository mMyRepository;
 
     public ProgramViewModel() {
-        prodiRepository = MyRepository.get();
-        listProgram = new MutableLiveData<>();
-//        listProgram = prodiRepository.getListDataProgramByKK("002");
+        mMyRepository = MyRepository.get();
+        mListProgram = new MutableLiveData<>();
     }
-    public void loadListProdiByKK(String kkId) {
-        listProgram = prodiRepository.getListDataProgramByKK(kkId);
+    public MutableLiveData<List<ProgramModel>> loadListProgramByKK(String kke_id){
+        mListProgram = mMyRepository.findAllProgrambyKK(kke_id);
+        return mListProgram;
     }
     public LiveData<List<ProgramModel>> getListProgram() {
-        return listProgram;
+        return mListProgram;
     }
-
-//    private void loadDummyData() {
-//        List<ProgramModel> dummyProgramList = new ArrayList<>();
-//
-//        // Generate dummy data
-//        dummyProgramList.add(new ProgramModel("1", "Program Manajemen Informatika", "Program studi untuk mengelola informasi dan teknologi."));
-//        dummyProgramList.add(new ProgramModel("2", "Program Mekatronika", "Program studi yang mengintegrasikan mekanika, elektronika, dan otomasi."));
-//        dummyProgramList.add(new ProgramModel("3", "Program Mesin Otomotif", "Program studi yang mempelajari teknologi mesin otomotif dan kendaraan bermotor."));
-//
-//        listProgram.setValue(dummyProgramList);
-//    }
 }

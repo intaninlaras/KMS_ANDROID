@@ -25,17 +25,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KategoriFragment extends Fragment {
-    private KategoriViewModel kategoriViewModel;
-    private RecyclerView recyclerView;
-    private KategoriAdapter kategoriAdapter;
-    private String programId;
-    private String namaProgram;
-    private String deskProgram;
-    private static String KKId;
-    private static String namaKK;
-    private static String deskKK;
-    private static String prodiId;
-    private static String prodiNama;
+    private KategoriViewModel mKategoriViewModel;
+    private RecyclerView mRecyclerView;
+    private KategoriAdapter mKategoriAdapter;
+    private String mProgramId;
+    private String mNamaProgram;
+    private String mDeskProgram;
+    private static String mKKId;
+    private static String mNamaKK;
+    private static String mDeskKK;
+    private static String mProdiId;
+    private static String mProdiNama;
 
     public static KategoriFragment newInstance() {
         return new KategoriFragment();
@@ -52,32 +52,32 @@ public class KategoriFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            programId = getArguments().getString("program_id");
-            namaProgram = getArguments().getString("nama_program");
-            deskProgram = getArguments().getString("desk_program");
-            KKId = getArguments().getString("kk_id");
-            namaKK = getArguments().getString("nama_kk");
-            deskKK = getArguments().getString("desk_kk");
-            prodiId = getArguments().getString("prodi_id");
-            prodiNama = getArguments().getString("nama_prodi");
+            mProgramId = getArguments().getString("program_id");
+            mNamaProgram = getArguments().getString("nama_program");
+            mDeskProgram = getArguments().getString("desk_program");
+            mKKId = getArguments().getString("kk_id");
+            mNamaKK = getArguments().getString("nama_kk");
+            mDeskKK = getArguments().getString("desk_kk");
+            mProdiId = getArguments().getString("prodi_id");
+            mProdiNama = getArguments().getString("nama_prodi");
 
             TextView txvProdi = view.findViewById(R.id.header_title);
-            txvProdi.setText(namaProgram);
+            txvProdi.setText(mNamaProgram);
         }
 
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        kategoriAdapter = new KategoriAdapter(getParentFragmentManager(), programId, namaProgram);
-        recyclerView.setAdapter(kategoriAdapter);
+        mRecyclerView = view.findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mKategoriAdapter = new KategoriAdapter(getParentFragmentManager(), mProgramId, mNamaProgram);
+        mRecyclerView.setAdapter(mKategoriAdapter);
 
-        kategoriViewModel = new ViewModelProvider(this).get(KategoriViewModel.class);
+        mKategoriViewModel = new ViewModelProvider(this).get(KategoriViewModel.class);
 
-        kategoriViewModel.loadListKategoriByProgram(programId);
+        mKategoriViewModel.loadListKategoriByProgram(mProgramId);
 
-        kategoriViewModel.getListKategori().observe(getViewLifecycleOwner(), new Observer<List<KategoriModel>>() {
+        mKategoriViewModel.getListKategori().observe(getViewLifecycleOwner(), new Observer<List<KategoriModel>>() {
             @Override
             public void onChanged(List<KategoriModel> kategoriViewVOS) {
-                kategoriAdapter.setKategoriList(kategoriViewVOS);
+                mKategoriAdapter.setKategoriList(kategoriViewVOS);
             }
         });
 
@@ -87,11 +87,11 @@ public class KategoriFragment extends Fragment {
             public void onClick(View v) {
                 ProgramFragment programFragment = ProgramFragment.newInstance();
                 Bundle args = new Bundle();
-                args.putString("kk_id", KKId);
-                args.putString("nama_kk", namaKK);
-                args.putString("desk_kk", deskKK);
-                args.putString("prodi_id", prodiId);
-                args.putString("nama_prodi", prodiNama);
+                args.putString("kk_id", mKKId);
+                args.putString("nama_kk", mNamaKK);
+                args.putString("desk_kk", mDeskKK);
+                args.putString("prodi_id", mProdiId);
+                args.putString("nama_prodi", mProdiNama);
                 programFragment.setArguments(args);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
@@ -105,13 +105,13 @@ public class KategoriFragment extends Fragment {
     private static class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.KategoriViewHolder> {
         private List<KategoriModel> kategoriList = new ArrayList<>();
         private FragmentManager fragmentManager;
-        private String programId;
-        private String namaProgram;
+        private String mProgramId;
+        private String mNamaProgram;
 
-        public KategoriAdapter(FragmentManager fragmentManager, String programId, String namaProgram) {
+        public KategoriAdapter(FragmentManager fragmentManager, String mProgramId, String mNamaProgram) {
             this.fragmentManager = fragmentManager;
-            this.programId = programId;
-            this.namaProgram = namaProgram;
+            this.mProgramId = mProgramId;
+            this.mNamaProgram = mNamaProgram;
         }
 
         @NonNull
@@ -124,9 +124,9 @@ public class KategoriFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull KategoriViewHolder holder, int position) {
             KategoriModel kategori = kategoriList.get(position);
-            holder.judul.setText(kategori.getKatNama());
-            holder.keterangan.setText(kategori.getKatDeskripsi());
-            holder.jumlah.setText(kategori.getJumlahMateri());
+            holder.mJudul.setText(kategori.getKatNama());
+            holder.mKeterangan.setText(kategori.getKatDeskripsi());
+            holder.mJumlah.setText(kategori.getJumlahMateri());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -136,13 +136,13 @@ public class KategoriFragment extends Fragment {
                     args.putString("kategori_id", kategori.getKatId());
                     args.putString("nama_kategori", kategori.getKatNama());
                     args.putString("desk_kategori", kategori.getKatDeskripsi());
-                    args.putString("program_id", programId);
-                    args.putString("nama_program", namaProgram);
-                    args.putString("kk_id", KKId);
-                    args.putString("nama_kk", namaKK);
-                    args.putString("desk_kk", deskKK);
-                    args.putString("prodi_id", prodiId);
-                    args.putString("nama_prodi", prodiNama);
+                    args.putString("program_id", mProgramId);
+                    args.putString("nama_program", mNamaProgram);
+                    args.putString("kk_id", mKKId);
+                    args.putString("nama_kk", mNamaKK);
+                    args.putString("desk_kk", mDeskKK);
+                    args.putString("prodi_id", mProdiId);
+                    args.putString("nama_prodi", mProdiNama);
                     materiFragment.setArguments(args);
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment_container, materiFragment);
@@ -163,13 +163,13 @@ public class KategoriFragment extends Fragment {
         }
 
         static class KategoriViewHolder extends RecyclerView.ViewHolder {
-            TextView judul, keterangan, jumlah;
+            TextView mJudul, mKeterangan, mJumlah;
 
             public KategoriViewHolder(@NonNull View itemView) {
                 super(itemView);
-                judul = itemView.findViewById(R.id.judul);
-                keterangan = itemView.findViewById(R.id.deskripsi);
-                jumlah = itemView.findViewById(R.id.jumlah_materi);
+                mJudul = itemView.findViewById(R.id.judul);
+                mKeterangan = itemView.findViewById(R.id.deskripsi);
+                mJumlah = itemView.findViewById(R.id.jumlah_materi);
             }
         }
     }

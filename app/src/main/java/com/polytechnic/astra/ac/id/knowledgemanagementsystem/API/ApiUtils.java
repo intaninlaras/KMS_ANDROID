@@ -12,6 +12,8 @@ public class ApiUtils {
 
 //    public static final String API_URL = "http://10.1.11.136:8080/";
 public static final String API_URL = "http://192.168.0.217:8080/";
+//public static final String API_URL = "http://10.10.5.33:8080/";
+
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(String baseUrl) {

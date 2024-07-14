@@ -4,72 +4,55 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class MateriModel {
-    @SerializedName("matId")
+    @SerializedName("mat_id")
     @Expose
     private String matId;
 
-    @SerializedName("matJudul")
-    @Expose
-    private String matJudul;
-    @SerializedName("katId")
+    @SerializedName("kat_id")
     @Expose
     private String katId;
 
-    @SerializedName("katNama")
+    @SerializedName("mat_judul")
     @Expose
-    private String katNama;
+    private String matJudul;
 
-    @SerializedName("matFilePdf")
+    @SerializedName("mat_file_pdf")
     @Expose
     private String matFilePdf;
 
-    @SerializedName("matFileVideo")
+    @SerializedName("mat_file_video")
     @Expose
     private String matFileVideo;
 
-    @SerializedName("matPengenalan")
+    @SerializedName("mat_pengenalan")
     @Expose
     private String matPengenalan;
 
-    @SerializedName("matKeterangan")
+    @SerializedName("mat_keterangan")
     @Expose
     private String matKeterangan;
 
-    @SerializedName("matKunci")
-    @Expose
-    private String matKunci;
 
-    @SerializedName("matGambar")
-    @Expose
-    private String matGambar;
-
-    @SerializedName("matSharPdf")
-    @Expose
-    private String matSharPdf;
-
-    @SerializedName("matSharVideo")
-    @Expose
-    private String matSharVideo;
-
-    @SerializedName("matStatus")
-    @Expose
-    private String matStatus;
 
     public MateriModel() {
     }
 
-    public MateriModel(String matId, String matJudul, String matFilePdf, String matFileVideo, String matPengenalan, String matKeterangan, String matKunci, String matGambar, String matSharPdf, String matSharVideo, String matStatus) {
+    public MateriModel(String matId, String katId, String matJudul, String matFilePdf, String matFileVideo, String matPengenalan, String matKeterangan) {
         this.matId = matId;
+        this.katId = katId;
         this.matJudul = matJudul;
         this.matFilePdf = matFilePdf;
         this.matFileVideo = matFileVideo;
         this.matPengenalan = matPengenalan;
         this.matKeterangan = matKeterangan;
-        this.matKunci = matKunci;
-        this.matGambar = matGambar;
-        this.matSharPdf = matSharPdf;
-        this.matSharVideo = matSharVideo;
-        this.matStatus = matStatus;
+    }
+
+    public String getKatId() {
+        return katId;
+    }
+
+    public void setKatId(String katId) {
+        this.katId = katId;
     }
 
     public String getMatId() {
@@ -118,45 +101,5 @@ public class MateriModel {
 
     public void setMatKeterangan(String matKeterangan) {
         this.matKeterangan = matKeterangan;
-    }
-
-    public String getMatKunci() {
-        return matKunci;
-    }
-
-    public void setMatKunci(String matKunci) {
-        this.matKunci = matKunci;
-    }
-
-    public String getMatGambar() {
-        return matGambar;
-    }
-
-    public void setMatGambar(String matGambar) {
-        this.matGambar = matGambar;
-    }
-
-    public String getMatSharPdf() {
-        return matSharPdf;
-    }
-
-    public void setMatSharPdf(String matSharPdf) {
-        this.matSharPdf = matSharPdf;
-    }
-
-    public String getMatSharVideo() {
-        return matSharVideo;
-    }
-
-    public void setMatSharVideo(String matSharVideo) {
-        this.matSharVideo = matSharVideo;
-    }
-
-    public String getMatStatus() {
-        return matStatus;
-    }
-
-    public void setMatStatus(String matStatus) {
-        this.matStatus = matStatus;
     }
 }

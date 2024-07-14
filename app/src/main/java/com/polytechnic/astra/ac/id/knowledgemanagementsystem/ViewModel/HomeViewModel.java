@@ -23,12 +23,12 @@ public class HomeViewModel extends ViewModel {
         listProdiViewModel = new ProdiViewModel();
     }
 
-    public LiveData<List<MateriModel>> getRiwayatMateri() {
-        return riwayatMateriViewModel.getListMateri();
+    public LiveData<List<MateriModel>> getRiwayatMateri(String kry_id) {
+        return riwayatMateriViewModel.getListRiwayatMateri(kry_id);
     }
 
-    public LiveData<List<MateriModel>> getMateriTersimpan() {
-        return materiTersimpanViewModel.getListMateri();
+    public LiveData<List<MateriModel>> getMateriTersimpan(String kry_id) {
+        return materiTersimpanViewModel.getListMateri(kry_id);
     }
 
     public LiveData<List<ProdiModel>> getListProdi() {

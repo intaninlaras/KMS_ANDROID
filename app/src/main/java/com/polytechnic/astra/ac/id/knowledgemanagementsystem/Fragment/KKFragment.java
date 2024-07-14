@@ -28,15 +28,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KKFragment extends Fragment {
-    private KKViewModel kkViewModel;
-    private RecyclerView recyclerView;
-    private KKAdapter kkAdapter;
+    private KKViewModel mKKViewModel;
+    private RecyclerView mRecyclerView;
+    private KKAdapter mKKAdapter;
     private ImageButton mBtnBack;
-    private String prodiId;
-    private String prodiNama;
-    private String kkId;
-    private String namaKK;
-    private String deskKK;
+    private String mProdiId;
+    private String mProdiNama;
+    private String mKKId;
+    private String mNamaKK;
+    private String mDeskKK;
 
     public static KKFragment newInstance() {
         return new KKFragment();
@@ -53,30 +53,30 @@ public class KKFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            prodiId = getArguments().getString("prodi_id");
-            prodiNama = getArguments().getString("nama_prodi");
-            kkId = getArguments().getString("kk_id");
-            namaKK = getArguments().getString("nama_kk");
-            deskKK = getArguments().getString("desk_kk");
+            mProdiId = getArguments().getString("prodi_id");
+            mProdiNama = getArguments().getString("nama_prodi");
+            mKKId = getArguments().getString("kk_id");
+            mNamaKK = getArguments().getString("nama_kk");
+            mDeskKK = getArguments().getString("desk_kk");
 
             TextView txvProdi = view.findViewById(R.id.txv_prodi);
-            txvProdi.setText(prodiNama);
+            txvProdi.setText(mProdiNama);
         }
 
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        kkAdapter = new KKAdapter(getParentFragmentManager(), prodiId);
-        recyclerView.setAdapter(kkAdapter);
+        mRecyclerView = view.findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mKKAdapter = new KKAdapter(getParentFragmentManager(), mProdiId);
+        mRecyclerView.setAdapter(mKKAdapter);
 
-        kkViewModel = new ViewModelProvider(this).get(KKViewModel.class);
+        mKKViewModel = new ViewModelProvider(this).get(KKViewModel.class);
 
-        // Panggil metode ViewModel dengan prodiId
-        kkViewModel.loadListKKByProdi(prodiId);
+        // Panggil metode ViewModel dengan mProdiId
+        mKKViewModel.loadListKKByProdi(mProdiId);
 
-        kkViewModel.getListKK().observe(getViewLifecycleOwner(), new Observer<List<KKModel>>() {
+        mKKViewModel.getListKK().observe(getViewLifecycleOwner(), new Observer<List<KKModel>>() {
             @Override
             public void onChanged(List<KKModel> kkViewVOS) {
-                kkAdapter.setKKList(kkViewVOS);
+                mKKAdapter.setKKList(kkViewVOS);
             }
         });
 
@@ -96,7 +96,7 @@ public class KKFragment extends Fragment {
         private List<KKModel> kkList = new ArrayList<>();
         private FragmentManager fragmentManager;
 
-        public KKAdapter(FragmentManager fragmentManager, String prodiId) {
+        public KKAdapter(FragmentManager fragmentManager, String mProdiId) {
             this.fragmentManager = fragmentManager;
         }
 
@@ -120,8 +120,8 @@ public class KKFragment extends Fragment {
                     args.putString("kk_id", kk.getKkeId());
                     args.putString("nama_kk", kk.getKkeNama());
                     args.putString("desk_kk", kk.getKkeDeskripsi());
-                    args.putString("prodi_id", prodiId);
-                    args.putString("nama_prodi", prodiNama);
+                    args.putString("prodi_id", mProdiId);
+                    args.putString("nama_prodi", mProdiNama);
                     programFragment.setArguments(args);
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment_container, programFragment);

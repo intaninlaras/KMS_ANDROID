@@ -1,15 +1,38 @@
 package com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class ProgramModel {
+    @SerializedName("pro_id")
+    @Expose
     private String proId;
+    @SerializedName("pro_nama")
+    @Expose
     private String proNama;
+    @SerializedName("pro_deskripsi")
+    @Expose
     private String proDeskripsi;
+    @SerializedName("pro_status")
+    @Expose
     private String proStatus;
+    @SerializedName("pro_created_by")
+    @Expose
     private String proCreatedBy;
+    @SerializedName("pro_created_date")
+    @Expose
     private String proCreatedDate;
+    @SerializedName("pro_modif_by")
+    @Expose
     private String proModifBy;
+    @SerializedName("pro_modif_date")
+    @Expose
     private String proModifDate;
+    @SerializedName("kke_id")
+    @Expose
     private String kkeId;
+    @SerializedName("kke_nama")
+    @Expose
     private String kkeNama;
 
     public ProgramModel() {

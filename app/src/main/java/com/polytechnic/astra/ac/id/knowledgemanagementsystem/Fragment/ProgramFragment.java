@@ -26,15 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProgramFragment extends Fragment {
-    private ProgramViewModel programViewModel;
-    private RecyclerView recyclerView;
-    private ProgramAdapter programAdapter;
-    private String kkId;
-    private String prodiId;
-    private String prodiNama;
+    private ProgramViewModel mProgramViewModel;
+    private RecyclerView mRecyclerView;
+    private ProgramAdapter mProgramAdapter;
+    private String mKKId;
+    private String mProdiId;
+    private String mProdiNama;
 
-    private String namaKK;
-    private String deskKK;
+    private String mNamaKK;
+    private String mDeskKK;
     private ImageButton mBtnBack;
 
     public static ProgramFragment newInstance() {
@@ -52,28 +52,28 @@ public class ProgramFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            kkId = getArguments().getString("kk_id");
-            prodiId = getArguments().getString("prodi_id");
-            prodiNama = getArguments().getString("nama_prodi");
-            namaKK = getArguments().getString("nama_kk");
-            deskKK = getArguments().getString("desk_kk");
+            mKKId = getArguments().getString("kk_id");
+            mProdiId = getArguments().getString("prodi_id");
+            mProdiNama = getArguments().getString("nama_prodi");
+            mNamaKK = getArguments().getString("nama_kk");
+            mDeskKK = getArguments().getString("desk_kk");
             TextView txvNama = view.findViewById(R.id.txv_namaKK);
             TextView txvDesk = view.findViewById(R.id.txv_deskKK);
-            txvNama.setText(namaKK);
-            txvDesk.setText(deskKK);
+            txvNama.setText(mNamaKK);
+            txvDesk.setText(mDeskKK);
         }
 
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        programAdapter = new ProgramAdapter(getParentFragmentManager(), kkId, namaKK, deskKK);
-        recyclerView.setAdapter(programAdapter);
+        mRecyclerView = view.findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mProgramAdapter = new ProgramAdapter(getParentFragmentManager(), mKKId, mNamaKK, mDeskKK);
+        mRecyclerView.setAdapter(mProgramAdapter);
 
-        programViewModel = new ViewModelProvider(this).get(ProgramViewModel.class);
-        programViewModel.loadListProdiByKK(kkId);
-        programViewModel.getListProgram().observe(getViewLifecycleOwner(), new Observer<List<ProgramModel>>() {
+        mProgramViewModel = new ViewModelProvider(this).get(ProgramViewModel.class);
+        mProgramViewModel.loadListProgramByKK(mKKId);
+        mProgramViewModel.getListProgram().observe(getViewLifecycleOwner(), new Observer<List<ProgramModel>>() {
             @Override
             public void onChanged(List<ProgramModel> programViewVOS) {
-                programAdapter.setProgramList(programViewVOS);
+                mProgramAdapter.setProgramList(programViewVOS);
             }
         });
 
@@ -83,11 +83,11 @@ public class ProgramFragment extends Fragment {
             public void onClick(View v) {
                 KKFragment kkFragment = KKFragment.newInstance();
                 Bundle args = new Bundle();
-                args.putString("prodi_id", prodiId);
-                args.putString("nama_prodi", prodiNama);
-                args.putString("kk_id", kkId);
-                args.putString("nama_kk", namaKK);
-                args.putString("desk_kk", deskKK);
+                args.putString("prodi_id", mProdiId);
+                args.putString("nama_prodi", mProdiNama);
+                args.putString("kk_id", mKKId);
+                args.putString("nama_kk", mNamaKK);
+                args.putString("desk_kk", mDeskKK);
                 kkFragment.setArguments(args);
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, kkFragment);
@@ -99,16 +99,16 @@ public class ProgramFragment extends Fragment {
 
     public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramViewHolder> {
         private List<ProgramModel> programList = new ArrayList<>();
-        private FragmentManager fragmentManager;
-        private String kkId;
-        private String namaKK;
-        private String deskKK;
+        private FragmentManager mFragmentManager;
+        private String mKKId;
+        private String mNamaKK;
+        private String mDeskKK;
 
-        public ProgramAdapter(FragmentManager fragmentManager, String kkId, String namaKK, String deskKK) {
-            this.fragmentManager = fragmentManager;
-            this.kkId = kkId;
-            this.namaKK = namaKK;
-            this.deskKK = deskKK;
+        public ProgramAdapter(FragmentManager fragmentManager, String mKKId, String mNamaKK, String mDeskKK) {
+            this.mFragmentManager = fragmentManager;
+            this.mKKId = mKKId;
+            this.mNamaKK = mNamaKK;
+            this.mDeskKK = mDeskKK;
         }
 
         @NonNull
@@ -132,13 +132,13 @@ public class ProgramFragment extends Fragment {
                     args.putString("program_id", program.getProId());
                     args.putString("nama_program", program.getProNama());
                     args.putString("desk_program", program.getProDeskripsi());
-                    args.putString("kk_id", kkId);
-                    args.putString("nama_kk", namaKK);
-                    args.putString("desk_kk", deskKK);
-                    args.putString("prodi_id", prodiId);
-                    args.putString("nama_prodi", prodiNama);
+                    args.putString("kk_id", mKKId);
+                    args.putString("nama_kk", mNamaKK);
+                    args.putString("desk_kk", mDeskKK);
+                    args.putString("prodi_id", mProdiId);
+                    args.putString("nama_prodi", mProdiNama);
                     kategoriFragment.setArguments(args);
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    FragmentTransaction transaction = mFragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment_container, kategoriFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();

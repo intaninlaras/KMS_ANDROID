@@ -6,23 +6,25 @@ import androidx.lifecycle.ViewModel;
 
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.API.Repository.MyRepository;
 import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model.KKModel;
+import com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model.MateriModel;
 
 import java.util.List;
 
 public class KKViewModel extends ViewModel {
-    private MutableLiveData<List<KKModel>> listKK;
-    private MyRepository prodiRepository;
+    private MutableLiveData<List<KKModel>> mListKK;
+    private MyRepository mMyRepository;
 
     public KKViewModel() {
-        prodiRepository = MyRepository.get();
-        listKK = new MutableLiveData<>();
+        mMyRepository = MyRepository.get();
+        mListKK = new MutableLiveData<>();
     }
 
-    public void loadListKKByProdi(String prodiId) {
-        listKK = prodiRepository.getListDataKKByProdi(prodiId);
+    public MutableLiveData<List<KKModel>> loadListKKByProdi(String pro_id){
+        mListKK = mMyRepository.findAllKKbyProdi(pro_id);
+        return mListKK;
     }
 
     public LiveData<List<KKModel>> getListKK() {
-        return listKK;
+        return mListKK;
     }
 }

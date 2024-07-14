@@ -1,16 +1,41 @@
 package com.polytechnic.astra.ac.id.knowledgemanagementsystem.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class KKModel {
+    @SerializedName("kke_id")
+    @Expose
     private String kkeId;
+    @SerializedName("kke_nama")
+    @Expose
     private String kkeNama;
+    @SerializedName("pro_id")
+    @Expose
     private String proId;
+    @SerializedName("kry_id")
+    @Expose
     private String kryId;
+    @SerializedName("kke_deskripsi")
+    @Expose
     private String kkeDeskripsi;
+    @SerializedName("kke_status")
+    @Expose
     private String kkeStatus;
+    @SerializedName("kke_created_by")
+    @Expose
     private String kkeCreatedBy;
+    @SerializedName("kke_created_date")
+    @Expose
     private String kkeCreatedDate;
+    @SerializedName("kke_modif_by")
+    @Expose
     private String kkeModifBy;
+    @SerializedName("kke_modif_date")
+    @Expose
     private String kkeModifDate;
+    @SerializedName("pro_nama")
+    @Expose
     private String proNama;
 
     // Constructors

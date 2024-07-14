@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RiwayatMateriViewModel extends ViewModel {
-    private MutableLiveData<List<MateriModel>> listMateri;
-    private MyRepository prodiRepository;
+    private MutableLiveData<List<MateriModel>> mListMateri;
+    private MyRepository mMyRepository;
 
     public RiwayatMateriViewModel() {
-        prodiRepository = MyRepository.get();
-        listMateri = prodiRepository.getListRiwayatMateri("0320220086");
+        mMyRepository = MyRepository.get();
     }
-    public LiveData<List<MateriModel>> getListMateri() {
-        return listMateri;
+    public MutableLiveData<List<MateriModel>> getListRiwayatMateri(String kry_id){
+        mListMateri = mMyRepository.findAllRiwayatMateri(kry_id);
+        return mListMateri;
     }
 }
 
